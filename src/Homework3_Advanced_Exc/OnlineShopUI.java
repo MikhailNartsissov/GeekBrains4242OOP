@@ -1,5 +1,21 @@
+/**
+ * В данной работе реализуется примитивный вариант магазина
+ * на основе консольного меню.
+ * Функционал позволяет добавлять товары в базу данных магазина,
+ * делать покупки, используя Id товара (при этом количество доступных единиц товара уменьшается на
+ * количество товара в покупке,
+ * Вести учёт товаров в корзине (считается общее количество и общая стоимость),
+ * Исключения выбрасываются в случае, если товар не найден,
+ * если количество доступных единиц товара меньше запрошенного,
+ * при попытке добавить в базу уже существующий товар.
+ * При вводе некорректного значения в консольном меню исключение не выбрасывается,
+ * вместо этого, пользователю выводится сообщение о некорректном вводе с напоминанием, что от него ожидается.
+ *.
+ * На тестирование времени было мало, поэтому возможны недочеты, которые, при необходимости я готов исправить.
+ */
 package Homework3_Advanced_Exc;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static Homework3_Advanced_Exc.ShopManager.*;
@@ -20,16 +36,22 @@ public class OnlineShopUI {
             System.out.println("2 - Buy product, using Id");
             System.out.println("0 - Exit program\n");
             System.out.print("Your choice: ");
-            int choice = scanner.nextInt();
-            switch (choice) {
-                case (1) -> addProduct();
-                case (2) -> {
-                    Double[] newValues = buyProduct(basketCount, basketPrice);
-                    basketCount = newValues[0].intValue();
-                    basketPrice = newValues[1];
+            try {
+                int choice = scanner.nextInt();
+                switch (choice) {
+                    case (1) -> addProduct();
+                    case (2) -> {
+                        Double[] newValues = buyProduct(basketCount, basketPrice);
+                        basketCount = newValues[0].intValue();
+                        basketPrice = newValues[1];
+                    }
+                    case (0) -> exitSelected = true;
+                    default -> System.out.println("Incorrect choice. Please, enter 1, 2 or 0.");
                 }
-                case (0) -> exitSelected = true;
-                default -> System.out.println("Incorrect choice. Please, enter 1, 2 or 0.");
+            }
+            catch (InputMismatchException ex) {
+                System.out.println("Incorrect choice. Please, enter 1, 2 or 0.\n");
+                exitSelected = true;
             }
         }
     }
@@ -39,12 +61,21 @@ public class OnlineShopUI {
         System.out.print("\n*** Register a new product in the database ***\n");
         System.out.print("Enter product name: ");
         String name = scanner.next();
-        System.out.print("Enter available quantity of the product: ");
-        int av_quantity = scanner.nextInt();
-        System.out.print("Enter the price of the product: ");
-        double price = scanner.nextDouble();
-        int result = registerProduct(name, av_quantity, price);
-        if (result > 0) { System.out.printf("Product registered successfully with Id = %d\n", result); }
+        try {
+            if (checkProductName(name) == 0) {
+                System.out.print("Enter available quantity of the product: ");
+                int av_quantity = scanner.nextInt();
+                System.out.print("Enter the price of the product: ");
+                double price = scanner.nextDouble();
+                int result = registerProduct(name, av_quantity, price);
+                if (result > 0) {
+                    System.out.printf("Product registered successfully with Id = %d\n", result);
+                }
+            }
+        }
+        catch (ProductAlreadyExistsException ex) {
+            System.out.println("Невозможно добавить товар. " + ex.getMessage());
+        }
     }
 
     public static Double[] buyProduct(int basketCount, double basketPrice) throws

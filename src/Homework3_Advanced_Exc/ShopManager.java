@@ -42,6 +42,15 @@ public class ShopManager {
         return 0;
     }
 
+    public static int checkProductName(String name) throws ProductAlreadyExistsException {
+        if (getProductByName(name) == null) {
+            return 0;
+        }
+        else
+            throw new ProductAlreadyExistsException("Товар " + name + " уже зарегистрирован в базе данных.");
+    }
+
+
     public static int registerProduct(String name, int availableQuantity, double price)
             throws ProductAlreadyExistsException {
 
