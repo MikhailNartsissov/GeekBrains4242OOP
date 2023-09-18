@@ -1,13 +1,13 @@
-package Homework3_Advanced_Exc;
+package ExaminationWork_ToyShopLottery;
 
-public class ProductNotFoundException extends Exception {
-
+public class ProductAlreadyExistsException extends Exception {
     private String errorMessage;
 
-    public ProductNotFoundException(String errorMessage) {
+    public ProductAlreadyExistsException(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 
     @Override
     public String getMessage() {return "Ошибка: " + errorMessage;}
 }
+

@@ -1,9 +1,10 @@
-package Homework3_Advanced_Exc;
+package ExaminationWork_ToyShopLottery;
 
-public class NotEnoughProductInStoreException extends Exception{
+public class ProductNotFoundException extends Exception {
+
     private String errorMessage;
 
-    public NotEnoughProductInStoreException(String errorMessage) {
+    public ProductNotFoundException(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 

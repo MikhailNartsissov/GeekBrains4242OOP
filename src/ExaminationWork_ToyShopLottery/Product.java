@@ -1,4 +1,4 @@
-package Homework3_Advanced_Exc;
+package ExaminationWork_ToyShopLottery;
 
 public class Product {
     private static int currentId;

@@ -1,4 +1,4 @@
-package Homework3_Advanced_Exc;
+package ExaminationWork_ToyShopLottery;
 
 import java.util.*;
 
@@ -43,5 +43,19 @@ public class ProductDatabase {
 
     public static void addProduct(Product product) {
         products.add(product);
+    }
+
+    public static String getProductByChance() throws ProductNotFoundException {
+        if (products.size() != 0) {
+            Random lottery = new Random();
+            int chance = lottery.nextInt((products.size() - 1) + 1) + 1;
+            Product product = getProductById(chance);
+            if (product.getAvailableQuantity() > 0) {
+                product.setAvailableQuantity(product.getAvailableQuantity() - 1);
+                return " You won " + product.getName() + "!";
+            }
+            return  " We're sorry, but " + getProductById(chance).getName() + " are over. Try to run lottery again.";
+        }
+        return " We're sorry, but no products in the database yet. Try register some products and run lottery again.";
     }
 }

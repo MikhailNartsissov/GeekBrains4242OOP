@@ -1,13 +1,12 @@
-package Homework3_Advanced_Exc;
+package ExaminationWork_ToyShopLottery;
 
-public class ProductAlreadyExistsException extends Exception {
+public class NotEnoughProductInStoreException extends Exception{
     private String errorMessage;
 
-    public ProductAlreadyExistsException(String errorMessage) {
+    public NotEnoughProductInStoreException(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 
     @Override
     public String getMessage() {return "Ошибка: " + errorMessage;}
 }
-
